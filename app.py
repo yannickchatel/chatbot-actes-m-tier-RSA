@@ -9,7 +9,7 @@ import re
 import streamlit as st
 from openai import OpenAI
 
-from data_actes_metier import ACTES_METIER
+from data_actes_metier.py import ACTES_METIER
 
 
 # ------------------------------------------------------------
