@@ -1,143 +1,103 @@
-# data_actes_metier.py
-# -*- coding: utf-8 -*-
-
 ACTES_METIER = [
-    # =========================
-    # EXEMPLES D'ACTES METIER
-    # (tu pourras en ajouter autant que tu veux)
-    # =========================
-
     {
-        "code": "INFO_CONSEIL_EMPLOI",
+        "code": "EMP_INFO_EMPLOI",
+        "thematique": "ACCES A L’EMPLOI",
+        "rubrique": "INFO ET CONSEIL",
         "intitule": "Info et conseil emploi",
-        "categorie": "Accès à l'emploi",
-        "type": "Info et conseil",
         "description": (
             "Le référent délivre des informations et/ou conseils concernant la recherche d'emploi. "
             "Acte métier à mobiliser également lorsque le référent est uniquement dans l’écoute."
         ),
         "mots_cles": [
-            "information emploi",
-            "info emploi",
-            "recherche d'emploi",
-            "conseil emploi",
-            "parlé travail",
-            "échangé sur le travail",
-            "parlé de son projet professionnel",
+            "recherche d'emploi", "conseil emploi", "infos emploi", "parlé travail", "projet professionnel"
         ],
-        "commentaire_attendu": "Préciser dans le commentaire de l'offre l'information ou le conseil donné."
+        "commentaire_attendu": "Préciser dans le commentaire de l'offre le contenu de l'information ou du conseil."
     },
-
     {
-        "code": "APPUI_RECHERCHE_EMPLOI",
-        "intitule": "Appui à la recherche d’emploi",
-        "categorie": "Accès à l'emploi",
-        "type": "Appui",
+        "code": "EMP_INFO_CREATION",
+        "thematique": "ACCES A L’EMPLOI",
+        "rubrique": "INFO ET CONSEIL",
+        "intitule": "Info et conseil création/reprise entreprise",
         "description": (
-            "Le référent aide concrètement (fait avec) la personne accompagnée dans l'entrée et le maintien en emploi : "
-            "CV, lettre de motivation, préparation d'entretien, prospection d'entreprise, inscriptions sur des sites d'emploi..."
+            "Le référent délivre des informations et/ou conseils concernant la création ou la reprise d'activité. "
+            "Acte métier à mobiliser également lorsque le référent est uniquement dans l’écoute."
         ),
         "mots_cles": [
-            "cv",
-            "curriculum vitae",
-            "lettre de motivation",
-            "candidature",
-            "postuler",
-            "prospection entreprise",
-            "techniques de recherche d'emploi",
-            "tre",
-            "simulation entretien",
-            "entretien d'embauche",
-            "profil sur site emploi",
-            "inscription site emploi",
+            "creation d'entreprise", "reprise d'entreprise", "monter son entreprise",
+            "devenir auto entrepreneur", "micro entreprise"
         ],
-        "commentaire_attendu": "Préciser le type d'appui réalisé (CV, lettre, TRE, prospection…)."
+        "commentaire_attendu": "Préciser le type de projet (création, reprise…) dans le commentaire."
     },
-
     {
-        "code": "APPUI_POLE_EMPLOI",
-        "intitule": "Appui inscription/actualisation Pôle Emploi",
-        "categorie": "Accès à l'emploi",
-        "type": "Appui",
+        "code": "EMP_ORIENT_PARTENAIRE_EMPLOI",
+        "thematique": "ACCES A L’EMPLOI",
+        "rubrique": "ORIENTATION VERS",
+        "intitule": "Orientation vers un partenaire emploi",
         "description": (
-            "Le référent aide concrètement (fait avec) la personne accompagnée à s'inscrire ou s'actualiser "
-            "à Pôle Emploi / France Travail."
+            "Le référent oriente la personne accompagnée sans l'inscrire vers un partenaire emploi."
         ),
         "mots_cles": [
-            "inscription pole emploi",
-            "inscrire à pole emploi",
-            "inscription france travail",
-            "actualisation pole emploi",
-            "actualiser pole emploi",
-            "actualiser sa situation",
-            "mise à jour pole emploi",
+            "orientation vers mission locale", "orientation vers pole emploi", "orientation vers un conseiller emploi",
+            "orienté vers un partenaire emploi"
         ],
-        "commentaire_attendu": "Préciser dans le commentaire de l'offre la nature de l'aide (inscription ou actualisation)."
+        "commentaire_attendu": "Préciser le partenaire vers lequel la personne est orientée."
     },
-
     {
-        "code": "AIDE_FINANCIERE_FSL",
-        "intitule": "Aide financière FSL",
-        "categorie": "Logement",
-        "type": "Aide financière",
-        "description": (
-            "Le référent propose à la personne accompagnée et sollicite le Fonds de Solidarité Logement (FSL) "
-            "pour une aide au maintien ou à l'accès au logement."
-        ),
-        "mots_cles": [
-            "fsl",
-            "fonds de solidarité logement",
-            "dettes de loyer",
-            "impayés de loyer",
-            "impayés de charges",
-            "aide au maintien dans le logement",
-            "aide à l'accès au logement",
-            "caution",
-        ],
-        "commentaire_attendu": "Préciser le type de demande FSL (accès, maintien, type de dette…)."
-    },
-
-    {
-        "code": "APPUI_LOGEMENT",
+        "code": "LOG_APPUI_LOGEMENT",
+        "thematique": "LOGEMENT",
+        "rubrique": "APPUI",
         "intitule": "Appui logement",
-        "categorie": "Logement",
-        "type": "Appui",
         "description": (
             "Le référent aide concrètement (fait avec) la personne accompagnée dans ses démarches de logement "
-            "(Demande de logement 37, Action Logement, bailleurs sociaux et privés, etc.)."
+            "(Demande de logement 37, Action Logement, bailleurs privés...)."
         ),
         "mots_cles": [
-            "demande de logement",
-            "demande de logement 37",
-            "action logement",
-            "bailleur social",
-            "bailleur privé",
-            "recherche de logement",
-            "dossier logement",
+            "demande de logement", "logement 37", "dossier bailleur", "recherche de logement",
+            "action logement"
         ],
-        "commentaire_attendu": "Préciser les démarches réalisées (Demande logement 37, contact bailleur, etc.)."
+        "commentaire_attendu": "Préciser les démarches réalisées (Demande logement 37, contact bailleur…)."
     },
-
     {
-        "code": "APPUI_SANTE",
-        "intitule": "Appui santé",
-        "categorie": "Santé",
-        "type": "Appui",
+        "code": "SANTE_INTER_SANTE",
+        "thematique": "SANTE",
+        "rubrique": "INTERMEDIATION",
+        "intitule": "Intermédiation service de santé et/ou de soins",
         "description": (
-            "Le référent aide concrètement (fait avec) la personne accompagnée dans ses démarches de santé "
-            "(complémentaire santé solidaire, prise de rendez-vous, etc.)."
+            "Le référent fait un point avec un interlocuteur de la santé en présence ou non de la personne accompagnée."
         ),
         "mots_cles": [
-            "complémentaire santé solidaire",
-            "css",
-            "prise de rendez-vous médical",
-            "rendez vous médecin",
-            "démarches de santé",
-            "dossier santé",
+            "appel au cmp", "contact avec le medecin", "prise de contact avec un service de sante",
+            "échange avec le centre de soins"
         ],
-        "commentaire_attendu": "Préciser la nature des démarches de santé accompagnées."
+        "commentaire_attendu": "Préciser le service ou professionnel de santé contacté."
     },
-
-    # 👉 Ensuite tu pourras ajouter ici tous les autres actes du livret CD37,
-    # en copiant le même format de dictionnaire Python.
+    {
+        "code": "JUST_INTER_SERVICE_JURIDIQUE",
+        "thematique": "JUSTICE",
+        "rubrique": "INTERMEDIATION",
+        "intitule": "Intermédiation avec un service juridique",
+        "description": (
+            "Le référent fait un point avec un interlocuteur en présence ou non de la personne accompagnée."
+        ),
+        "mots_cles": [
+            "contact avocat", "échange avec cidff", "contact france victime",
+            "appel maison de la justice", "point avec le service juridique"
+        ],
+        "commentaire_attendu": "Préciser le service juridique contacté et l’objet de l’échange."
+    },
+    {
+        "code": "LIEN_INFO_LIEN_SOCIAL",
+        "thematique": "LIEN SOCIAL/CITOYENNETE",
+        "rubrique": "INFO ET CONSEIL",
+        "intitule": "Info et conseil lien social",
+        "description": (
+            "Le référent délivre des informations et/ou des conseils concernant le lien social."
+        ),
+        "mots_cles": [
+            "activites collectives", "rompre l isolement", "activité lien social",
+            "club de quartier", "association sociale"
+        ],
+        "commentaire_attendu": "Préciser le type d’information donné (activité, lieu, structure…)."
+    },
+    # 👉 À toi de continuer en recopiant tous les actes du document.
 ]
