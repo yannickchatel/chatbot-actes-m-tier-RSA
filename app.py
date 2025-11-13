@@ -1,6 +1,3 @@
-# app.py
-# -*- coding: utf-8 -*-
-
 import streamlit as st
 import unicodedata
 import re
@@ -9,7 +6,6 @@ from data_actes_metier import ACTES_METIER
 
 
 def normaliser_texte(texte: str) -> str:
-    """Met le texte en minuscules, enlève les accents et les caractères spéciaux."""
     texte = texte.lower()
     texte = unicodedata.normalize("NFD", texte).encode("ascii", "ignore").decode("utf-8")
     texte = re.sub(r"[^a-z0-9\s']", " ", texte)
@@ -18,7 +14,6 @@ def normaliser_texte(texte: str) -> str:
 
 
 def calculer_score(texte_norm: str, acte: dict) -> int:
-    """Score = nombre de mots-clés de l'acte trouvés dans le texte."""
     score = 0
     for mot in acte.get("mots_cles", []):
         mot_norm = normaliser_texte(mot)
@@ -27,31 +22,62 @@ def calculer_score(texte_norm: str, acte: dict) -> int:
     return score
 
 
-def analyser_cr(texte_cr: str):
-    """Retourne la liste des actes métiers détectés dans le CR."""
+def analyser_cr(texte_cr: str, seuil: int = 1):
     texte_norm = normaliser_texte(texte_cr)
-    resultats = []
+    detectes = []
 
     for acte in ACTES_METIER:
         score = calculer_score(texte_norm, acte)
-        if score > 0:
+        if score >= seuil:
             item = acte.copy()
             item["score"] = score
-            resultats.append(item)
+            detectes.append(item)
 
-    # trier par score décroissant
-    resultats = sorted(resultats, key=lambda x: x["score"], reverse=True)
-    return resultats
+    # tri global par score pour info
+    detectes = sorted(detectes, key=lambda x: x["score"], reverse=True)
+    return detectes
+
+
+def regrouper_par_thematique_et_rubrique(actes_detectes):
+    """
+    Retourne une structure imbriquée :
+    {
+      "ACCES A L’EMPLOI": {
+          "INFO ET CONSEIL": [actes...],
+          "APPUI": [actes...],
+          ...
+      },
+      "LOGEMENT": {
+          ...
+      }
+    }
+    """
+    arbre = {}
+    for acte in actes_detectes:
+        th = acte.get("thematique", "AUTRE")
+        rub = acte.get("rubrique", "AUTRE")
+
+        arbre.setdefault(th, {})
+        arbre[th].setdefault(rub, [])
+        arbre[th][rub].append(acte)
+
+    return arbre
 
 
 def main():
     st.set_page_config(page_title="Chatbot actes métier RSA - CD37", layout="wide")
-
     st.title("🤖 Assistant actes métier RSA (CD37)")
+
     st.write(
-        "Collez votre compte rendu (CR) de rendez-vous ci-dessous. "
-        "L’outil analysera le texte et proposera les actes métier les plus pertinents "
-        "à partir d’un premier référentiel (exemples)."
+        "Collez votre compte rendu (CR). L’outil détecte les *thématiques*, "
+        "les *rubriques* (Info et conseil, Orientation vers, Appui, etc.) "
+        "et les *actes métier* correspondants."
+    )
+
+    seuil = st.sidebar.slider(
+        "Seuil minimum de mots-clés par acte",
+        1, 5, 1,
+        help="Plus le seuil est élevé, plus il faut de mots-clés pour proposer un acte."
     )
 
     texte_cr = st.text_area(
@@ -65,31 +91,40 @@ def main():
             st.warning("Merci de coller un compte rendu avant de lancer l'analyse.")
             return
 
-        resultats = analyser_cr(texte_cr)
+        actes_detectes = analyser_cr(texte_cr, seuil=seuil)
 
-        if not resultats:
-            st.info("Aucun acte métier détecté avec la configuration actuelle.")
+        if not actes_detectes:
+            st.info("Aucun acte métier détecté. Essayez de baisser le seuil ou d’enrichir les mots-clés.")
             return
 
-        st.subheader("📌 Actes métier détectés")
+        # Regroupement thématique → rubrique
+        arbre = regrouper_par_thematique_et_rubrique(actes_detectes)
 
-        for acte in resultats:
-            st.markdown("---")
-            st.markdown(f"### ✅ {acte['intitule']}")
-            st.write(f"**Catégorie :** {acte['categorie']}")
-            st.write(f"**Type :** {acte['type']}")
-            st.write(f"**Score détecté :** {acte['score']}")
-
-            with st.expander("📝 Description"):
-                st.write(acte["description"])
-
-            with st.expander("📎 Ce qu'il faut préciser dans le commentaire"):
-                st.write(acte["commentaire_attendu"])
+        # Résumé des thématiques trouvées
+        st.subheader("📚 Thématiques détectées")
+        st.write(", ".join(arbre.keys()))
 
         st.markdown("---")
+        st.subheader("📌 Détail par thématique / rubrique / acte")
+
+        for thematique, rubriques in arbre.items():
+            st.markdown(f"## 🧩 {thematique}")
+
+            for rubrique, actes in rubriques.items():
+                st.markdown(f"### 🔹 {rubrique}")
+
+                for acte in actes:
+                    st.markdown(f"**• {acte['intitule']}**  (score : {acte['score']})")
+                    with st.expander("Description"):
+                        st.write(acte["description"])
+                    with st.expander("Commentaire attendu"):
+                        st.write(acte["commentaire_attendu"])
+
+            st.markdown("---")
+
         st.info(
-            "Vous pouvez copier-coller le nom des actes ci-dessus pour les saisir dans Parcours RSA.\n"
-            "Ce n'est qu'une première base : le référentiel peut être étoffé avec tous les actes du livret CD37."
+            "Vous pouvez maintenant sélectionner, dans Parcours RSA, les thématiques, rubriques et actes "
+            "correspondant à ce qui est ressorti de ce CR."
         )
 
 
